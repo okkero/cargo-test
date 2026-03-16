@@ -1,0 +1,17 @@
+on:
+  workflow_dispatch:
+    inputs:
+      toolchain:
+        description: 'Rust toolchain'
+        type: string
+        
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY_TEST_SUBMODULE }}
+      - uses: actions/checkout@v6
+      - name: Build
+        run: cargo +${{ inputs.toolchain }} build
